@@ -49,13 +49,16 @@
             height: 100%;
             background: #A3C1AD;
             border-radius: 32px;
-            overflow-y: auto;
-            overflow-x: hidden;
+            overflow: hidden; /* No scrollbars ever */
             position: relative;
         }
 
-        .phone-screen::-webkit-scrollbar {
-            width: 0;
+        /* Completely hide scrollbars everywhere */
+        .phone-screen, .phone-screen * {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .phone-screen::-webkit-scrollbar, *::-webkit-scrollbar {
             display: none;
         }
 
@@ -72,12 +75,6 @@
             position: sticky;
             top: 0;
             z-index: 5;
-        }
-
-        .status-icons {
-            display: flex;
-            gap: 8px;
-            align-items: center;
         }
 
         /* REWARDS & CHALLENGES SCREEN */
@@ -155,10 +152,6 @@
             transform: translateY(-2px);
         }
 
-        .challenge-card:active {
-            transform: translateY(0);
-        }
-
         .challenge-title {
             font-size: 18px;
             font-weight: 600;
@@ -214,13 +207,11 @@
             width: calc(100% - 40px);
         }
 
-
-
         /* QUIZ SCREEN */
         .quiz-screen {
             background: #A3C1AD;
             min-height: 100%;
-            padding: 20px 16px 20px 16px;
+            padding: 20px 16px;
         }
 
         .quiz-header {
@@ -243,14 +234,12 @@
             height: 6px;
             border-radius: 3px;
             overflow: hidden;
-            margin-bottom: 8px;
         }
 
         .progress-bar {
             background: linear-gradient(90deg, #FFFFFF, #E8F5E9);
             height: 100%;
             transition: width 0.4s ease;
-            border-radius: 3px;
         }
 
         .progress-text {
@@ -266,31 +255,16 @@
             border: 3px solid #648877;
             border-radius: 16px;
             padding: 24px 20px;
-            margin: 0 0 20px 0;
+            margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(100, 136, 119, 0.15);
             position: relative;
         }
 
-        .question-card.correct {
-            border-color: #4CAF50;
-            animation: pulse-green 0.5s ease;
-        }
+        .question-card.correct { border-color: #4CAF50; animation: pulse-green 0.5s ease; }
+        .question-card.incorrect { border-color: #EF4444; animation: shake 0.5s ease; }
 
-        .question-card.incorrect {
-            border-color: #EF4444;
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes pulse-green {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
+        @keyframes pulse-green { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
 
         .feedback-icon {
             position: absolute;
@@ -301,9 +275,7 @@
             transition: opacity 0.3s ease;
         }
 
-        .feedback-icon.show {
-            opacity: 1;
-        }
+        .feedback-icon.show { opacity: 1; }
 
         .question-text {
             color: #2C3E50;
@@ -323,7 +295,7 @@
             background: #FFFFFF;
             border: 2px solid #648877;
             border-radius: 12px;
-            padding: 16px 16px;
+            padding: 16px;
             font-size: 15px;
             color: #2C3E50;
             cursor: pointer;
@@ -333,36 +305,15 @@
         }
 
         .answer-btn:hover:not(:disabled) {
-            border-color: #648877;
             background: #F1F8F4;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(100, 136, 119, 0.2);
         }
 
-        .answer-btn:active:not(:disabled) {
-            transform: translateY(0);
-        }
+        .answer-btn.correct { background: #C8E6C9; border-color: #4CAF50; animation: flash-green 0.6s ease; }
+        .answer-btn.incorrect { background: #FFCDD2; border-color: #EF4444; }
 
-        .answer-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .answer-btn.correct {
-            background: #C8E6C9;
-            border-color: #4CAF50;
-            animation: flash-green 0.6s ease;
-        }
-
-        .answer-btn.incorrect {
-            background: #FFCDD2;
-            border-color: #EF4444;
-        }
-
-        @keyframes flash-green {
-            0%, 100% { background: #C8E6C9; }
-            50% { background: #81C784; }
-        }
+        @keyframes flash-green { 0%, 100% { background: #C8E6C9; } 50% { background: #81C784; } }
 
         .ml-context {
             background: rgba(255, 255, 255, 0.7);
@@ -372,19 +323,7 @@
             border-radius: 8px;
         }
 
-        .ml-context-text {
-            color: #2C3E50;
-            font-size: 12px;
-            line-height: 1.5;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .ml-context-text::before {
-            content: "🤖";
-            font-size: 16px;
-        }
+        .ml-context-text::before { content: "🤖"; font-size: 16px; }
 
         .next-btn {
             width: 100%;
@@ -399,26 +338,175 @@
             transition: all 0.2s ease;
         }
 
-        .next-btn:hover:not(:disabled) {
-            background: #567568;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(100, 136, 119, 0.3);
+        .next-btn:hover:not(:disabled) { background: #567568; transform: translateY(-2px); }
+        .next-btn:disabled { background: #9CA3AF; cursor: not-allowed; }
+
+        /* SORTER GAME SCREEN */
+        .sorter-screen {
+            background: #A3C1AD;
+            min-height: 100%;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
         }
 
-        .next-btn:active:not(:disabled) {
-            transform: translateY(0);
+        .sorter-header {
+            background: #648877;
+            padding: 20px 16px;
+            margin: -20px -16px 20px -16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: white;
         }
 
-        .next-btn:disabled {
-            background: #9CA3AF;
-            cursor: not-allowed;
+        .sorter-header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .sorter-instructions {
+            font-size: 14px;
+            margin: 10px 0 20px;
+            color: #2C3E50;
+            text-align: center;
+        }
+
+        .timer-container {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 20px 8px;
+        }
+
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #4CAF50, #2196F3);
+            transition: width 0.2s linear, background 0.5s;
+        }
+
+        .timer-bar.warning { background: #FF9800; }
+        .timer-bar.danger { background: #F44336; }
+
+        .timer-text {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .items-zone {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            align-content: flex-start;
+            padding: 20px 0;
+            min-height: 200px;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            width: 140px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            font-size: 15px;
+            font-weight: 500;
+            color: #2C3E50;
+            cursor: grab;
+            transition: all 0.3s ease;
+            text-align: center;
+            touch-action: none;
+        }
+
+        .item-card:active {
+            cursor: grabbing;
+        }
+
+        .item-card.dragging {
+            opacity: 0.6;
+            transform: rotate(5deg) scale(1.1);
+            z-index: 100;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .item-card.sorted {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .categories-container {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .category-zone {
+            flex: 1;
+            min-height: 180px;
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .saver-zone {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+        }
+
+        .waster-zone {
+            background: linear-gradient(135deg, #F44336, #EF5350);
+        }
+
+        .category-label {
+            margin-bottom: 10px;
+        }
+
+        .sorted-item {
+            background: rgba(255,255,255,0.95);
+            color: #2C3E50;
+            border-radius: 16px;
+            padding: 16px;
+            width: 130px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-size: 14px;
+        }
+
+        #warningMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,0,0,0.9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 100;
+            display: none;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
 
         /* RESULTS SCREEN */
         .results-screen {
             background: #A3C1AD;
             min-height: 100%;
-            padding: 30px 20px 20px 20px;
+            padding: 30px 20px;
             text-align: center;
         }
 
@@ -434,7 +522,6 @@
             font-weight: bold;
             color: #4CAF50;
             margin: 24px 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .score-message {
@@ -449,7 +536,6 @@
             border-radius: 12px;
             padding: 20px;
             margin: 20px 0;
-            text-align: left;
             border: 2px solid #648877;
         }
 
@@ -460,22 +546,9 @@
             border-bottom: 1px solid rgba(100, 136, 119, 0.2);
         }
 
-        .stat-row:last-child {
-            border-bottom: none;
-        }
+        .stat-row:last-child { border-bottom: none; }
 
-        .stat-label {
-            color: #5A6C57;
-            font-size: 14px;
-        }
-
-        .stat-value {
-            color: #2C3E50;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .return-btn {
+        .return-btn, .retry-btn {
             width: 100%;
             background: #648877;
             color: #FFFFFF;
@@ -486,57 +559,35 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
+            margin-top: 10px;
         }
 
-        .return-btn:hover {
+        .return-btn:hover, .retry-btn:hover {
             background: #567568;
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(100, 136, 119, 0.3);
         }
 
-        .return-btn:active {
-            transform: translateY(0);
+        .retry-btn {
+            background: #EF4444;
         }
 
-        .hidden {
-            display: none;
-        }
+        .retry-btn:hover { background: #DC2626; }
 
-        /* Responsive adjustments */
-        @media (max-width: 400px) {
-            .phone-frame {
-                width: 100%;
-                height: 100vh;
-                border-radius: 0;
-                padding: 0;
-            }
-
-            .phone-screen {
-                border-radius: 0;
-            }
-
-            .phone-notch {
-                display: none;
-            }
-        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="phone-frame">
         <div class="phone-notch"></div>
         <div class="phone-screen">
-            <!-- Status Bar -->
             <div class="status-bar">
                 <span>5:13 PM</span>
                 <div class="status-icons">
-                    <span>⏰</span>
-                    <span>📶</span>
-                    <span>📡</span>
-                    <span>🔋</span>
+                    <span>⏰</span><span>📶</span><span>📡</span><span>🔋</span>
                 </div>
             </div>
 
-            <!-- REWARDS & CHALLENGES SCREEN -->
+            <!-- REWARDS SCREEN -->
             <div id="rewardsScreen" class="rewards-screen">
                 <div class="screen-header">Rewards & Challenges</div>
 
@@ -555,14 +606,14 @@
 
                 <div class="challenges-header">Active Challenges</div>
 
-                <div class="challenge-card">
+                <div class="challenge-card" id="sevenDayChallengeCard">
                     <div class="challenge-title">7-Day Water Saver</div>
                     <div class="challenge-info">
-                        <span>3/7 completed</span>
+                        <span id="sevenDayProgress">3/7 completed</span>
                         <span>1 badge</span>
                     </div>
                     <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" style="width: 43%;"></div>
+                        <div class="progress-bar-fill" id="sevenDayProgressBar" style="width: 43%;"></div>
                     </div>
                 </div>
 
@@ -586,9 +637,9 @@
                 <div class="quiz-header">
                     <h1>Daily Conservation Challenge</h1>
                     <div class="progress-bar-container">
-                        <div class="progress-bar" id="progressBar"></div>
+                        <div class="progress-bar" id="quizProgressBar"></div>
                     </div>
-                    <div class="progress-text" id="progressText">Question 1 of 10</div>
+                    <div class="progress-text" id="quizProgressText">Question 1 of 10</div>
                 </div>
 
                 <div class="question-card" id="questionCard">
@@ -602,294 +653,338 @@
                     <div class="ml-context-text" id="mlContext"></div>
                 </div>
 
-                <button class="next-btn" id="nextBtn" disabled>Next Question</button>
+                <button class="next-btn" id="quizNextBtn" disabled>Next Question</button>
+            </div>
+
+            <!-- SORTER GAME SCREEN -->
+            <div id="sorterScreen" class="sorter-screen hidden">
+                <div class="sorter-header">
+                    <h1>Water Conservation Sorter</h1>
+                    <div class="timer-container">
+                        <div class="timer-bar" id="timerBar"></div>
+                    </div>
+                    <div class="timer-text" id="timerText">Time Left: 45s</div>
+                </div>
+
+                <div class="sorter-instructions">Drag each habit into the correct category</div>
+
+                <div class="items-zone" id="itemsZone"></div>
+
+                <div class="categories-container">
+                    <div class="category-zone saver-zone" id="saverZone">
+                        <div class="category-label">WATER SAVER</div>
+                    </div>
+                    <div class="category-zone waster-zone" id="wasterZone">
+                        <div class="category-label">WATER WASTER</div>
+                    </div>
+                </div>
+
+                <div id="warningMessage">Incorrect category!</div>
             </div>
 
             <!-- RESULTS SCREEN -->
             <div id="resultsScreen" class="results-screen hidden">
-                <h2>🎉 Challenge Complete!</h2>
+                <h2 id="resultsTitle">🎉 Challenge Complete!</h2>
                 <div class="score-display" id="scoreDisplay"></div>
                 <div class="score-message" id="scoreMessage"></div>
-                
-                <div class="results-stats">
-                    <div class="stat-row">
-                        <span class="stat-label">Correct Answers</span>
-                        <span class="stat-value" id="correctCount"></span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Incorrect Answers</span>
-                        <span class="stat-value" id="incorrectCount"></span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Accuracy</span>
-                        <span class="stat-value" id="accuracy"></span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Points Earned</span>
-                        <span class="stat-value" id="pointsEarned">100</span>
-                    </div>
-                </div>
+
+                <div class="results-stats" id="resultsStats"></div>
 
                 <button class="return-btn" id="returnBtn">Return to Rewards & Challenges</button>
+                <button class="retry-btn hidden" id="retryBtn">Try Again</button>
             </div>
         </div>
     </div>
 
     <script>
         const questions = [
-            {
-                question: "Based on your water quality history, which parameter is the most crucial to monitor this week?",
-                answers: ["pH Level", "Turbidity", "Chlorine Content", "Temperature"],
-                correct: 1,
-                context: "This quiz is customized based on your recent Turbidity alerts."
-            },
-            {
-                question: "Your water usage has increased by 15% this month. What's the most effective conservation strategy?",
-                answers: ["Shorter showers", "Fix leaking faucets", "Use dishwasher efficiently", "All of the above"],
-                correct: 3,
-                context: "Personalized based on your usage patterns showing peak consumption during morning hours."
-            },
-            {
-                question: "What does a sudden spike in turbidity typically indicate?",
-                answers: ["Clean water", "Pipe corrosion or sediment", "High temperature", "Low pH"],
-                correct: 1,
-                context: "Your sensors detected 3 turbidity anomalies last week."
-            },
-            {
-                question: "Based on your monthly data, when do you use the most water?",
-                answers: ["6-8 AM", "12-2 PM", "6-8 PM", "10 PM-12 AM"],
-                correct: 0,
-                context: "ML analysis shows your peak usage correlates with morning routines."
-            },
-            {
-                question: "Your pH levels have been consistently at 6.5. What action should you take?",
-                answers: ["Nothing, it's perfect", "Add alkaline treatment", "Reduce water usage", "Check for contamination"],
-                correct: 1,
-                context: "Historical data shows pH trending below optimal range of 7.0-8.5."
-            },
-            {
-                question: "Which appliance in your home typically uses the most water?",
-                answers: ["Washing machine", "Toilet", "Shower", "Dishwasher"],
-                correct: 1,
-                context: "Your usage data indicates bathroom fixtures account for 45% of consumption."
-            },
-            {
-                question: "What's the ideal chlorine level for safe drinking water?",
-                answers: ["0.2-0.5 ppm", "0.5-1.0 ppm", "1.0-4.0 ppm", "4.0-8.0 ppm"],
-                correct: 2,
-                context: "Your recent chlorine readings have been within safe EPA standards."
-            },
-            {
-                question: "You've saved 120 gallons this week. How does this compare to your neighborhood?",
-                answers: ["Below average", "Average", "Above average", "Top 10%"],
-                correct: 2,
-                context: "ML comparison with local users shows you're in the 65th percentile."
-            },
-            {
-                question: "What causes water hardness?",
-                answers: ["Bacteria", "Dissolved minerals", "Temperature", "Chlorine"],
-                correct: 1,
-                context: "Your area has moderately hard water (120-180 mg/L) according to sensor data."
-            },
-            {
-                question: "Based on your conservation progress, what's your projected annual water savings?",
-                answers: ["500 gallons", "2,000 gallons", "5,000 gallons", "10,000 gallons"],
-                correct: 2,
-                context: "ML projection based on your 3-month trend shows significant improvement."
-            }
+            { question: "Based on your water quality history, which parameter is the most crucial to monitor this week?", answers: ["pH Level", "Turbidity", "Chlorine Content", "Temperature"], correct: 1, context: "This quiz is customized based on your recent Turbidity alerts." },
+            { question: "Your water usage has increased by 15% this month. What's the most effective conservation strategy?", answers: ["Shorter showers", "Fix leaking faucets", "Use dishwasher efficiently", "All of the above"], correct: 3, context: "Personalized based on your usage patterns showing peak consumption during morning hours." },
+            { question: "What does a sudden spike in turbidity typically indicate?", answers: ["Clean water", "Pipe corrosion or sediment", "High temperature", "Low pH"], correct: 1, context: "Your sensors detected 3 turbidity anomalies last week." },
+            { question: "Based on your monthly data, when do you use the most water?", answers: ["6-8 AM", "12-2 PM", "6-8 PM", "10 PM-12 AM"], correct: 0, context: "ML analysis shows your peak usage correlates with morning routines." },
+            { question: "Your pH levels have been consistently at 6.5. What action should you take?", answers: ["Nothing, it's perfect", "Add alkaline treatment", "Reduce water usage", "Check for contamination"], correct: 1, context: "Historical data shows pH trending below optimal range of 7.0-8.5." },
+            { question: "Which appliance in your home typically uses the most water?", answers: ["Washing machine", "Toilet", "Shower", "Dishwasher"], correct: 1, context: "Your usage data indicates bathroom fixtures account for 45% of consumption." },
+            { question: "What's the ideal chlorine level for safe drinking water?", answers: ["0.2-0.5 ppm", "0.5-1.0 ppm", "1.0-4.0 ppm", "4.0-8.0 ppm"], correct: 2, context: "Your recent chlorine readings have been within safe EPA standards." },
+            { question: "You've saved 120 gallons this week. How does this compare to your neighborhood?", answers: ["Below average", "Average", "Above average", "Top 10%"], correct: 2, context: "ML comparison with local users shows you're in the 65th percentile." },
+            { question: "What causes water hardness?", answers: ["Bacteria", "Dissolved minerals", "Temperature", "Chlorine"], correct: 1, context: "Your area has moderately hard water (120-180 mg/L) according to sensor data." },
+            { question: "Based on your conservation progress, what's your projected annual water savings?", answers: ["500 gallons", "2,000 gallons", "5,000 gallons", "10,000 gallons"], correct: 2, context: "ML projection based on your 3-month trend shows significant improvement." }
         ];
 
-        // App State Management
+        const sorterItems = [
+            { text: "Low-flow showerhead", icon: "🚿", type: "SAVER" },
+            { text: "Fixing leaky faucets", icon: "🔧", type: "SAVER" },
+            { text: "Rain barrel collection", icon: "🌧️", type: "SAVER" },
+            { text: "Running tap while brushing", icon: "🪥", type: "WASTER" },
+            { text: "Long daily showers", icon: "🛁", type: "WASTER" }
+        ];
+
         let appState = {
+            sevenDayCompleted: 3,
             dailyChallengeCompleted: 4,
             totalPoints: 1000,
             currentQuestion: 0,
-            score: 0,
-            answered: false
+            quizScore: 0,
+            quizAnswered: false,
+            sorterCorrect: 0,
+            sorterPoints: 0,
+            gameTimer: null,
+            activeChallenge: null
         };
 
-        // Screen Elements
-        const rewardsScreen = document.getElementById('rewardsScreen');
-        const quizScreen = document.getElementById('quizScreen');
-        const resultsScreen = document.getElementById('resultsScreen');
-        const dailyChallengeCard = document.getElementById('dailyChallengeCard');
-
-        // Quiz Elements
-        const questionCard = document.getElementById('questionCard');
-        const questionText = document.getElementById('questionText');
-        const answersContainer = document.getElementById('answersContainer');
-        const mlContext = document.getElementById('mlContext');
-        const nextBtn = document.getElementById('nextBtn');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-        const feedbackIcon = document.getElementById('feedbackIcon');
-
-        // Audio context
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-        // Navigation Functions
-        function showScreen(screen) {
-            rewardsScreen.classList.add('hidden');
-            quizScreen.classList.add('hidden');
-            resultsScreen.classList.add('hidden');
-            screen.classList.remove('hidden');
-            
-            // Scroll to top when changing screens
+        function playSound(freq, dur, type = 'sine', volume = 0.3) {
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.type = type;
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(volume, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + dur);
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.start();
+            osc.stop(audioContext.currentTime + dur);
+        }
+
+        function showScreen(id) {
+            ['rewardsScreen', 'quizScreen', 'sorterScreen', 'resultsScreen'].forEach(s => 
+                document.getElementById(s).classList.add('hidden')
+            );
+            document.getElementById(id).classList.remove('hidden');
             document.querySelector('.phone-screen').scrollTop = 0;
         }
 
-        function startQuiz() {
-            appState.currentQuestion = 0;
-            appState.score = 0;
-            appState.answered = false;
-            showScreen(quizScreen);
-            loadQuestion();
-        }
-
         function updateRewardsScreen() {
-            const completed = appState.dailyChallengeCompleted;
-            const progressPercent = (completed / 7) * 100;
-            
-            document.getElementById('dailyChallengeProgress').textContent = `${completed}/7 completed`;
-            document.getElementById('dailyProgressBar').style.width = progressPercent + '%';
+            document.getElementById('sevenDayProgress').textContent = `${appState.sevenDayCompleted}/7 completed`;
+            document.getElementById('sevenDayProgressBar').style.width = `${(appState.sevenDayCompleted / 7) * 100}%`;
+            document.getElementById('dailyChallengeProgress').textContent = `${appState.dailyChallengeCompleted}/7 completed`;
+            document.getElementById('dailyProgressBar').style.width = `${(appState.dailyChallengeCompleted / 7) * 100}%`;
             document.getElementById('totalPoints').textContent = appState.totalPoints;
         }
 
-        function handleChallengeCompletionAndReturn() {
-            // Increment challenge progress
-            appState.dailyChallengeCompleted++;
-            
-            // Add points
-            appState.totalPoints += 100;
-            
-            // Update UI and return to rewards screen
+        function completeChallenge(pointsEarned) {
+            appState.totalPoints += pointsEarned;
+            if (appState.activeChallenge === 'daily') appState.dailyChallengeCompleted = Math.min(appState.dailyChallengeCompleted + 1, 7);
+            if (appState.activeChallenge === 'sevenDay') appState.sevenDayCompleted = Math.min(appState.sevenDayCompleted + 1, 7);
             updateRewardsScreen();
-            showScreen(rewardsScreen);
+            showScreen('rewardsScreen');
         }
 
-        // Sound Functions
-        function playSound(frequency, duration, type = 'correct') {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            if (type === 'correct') {
-                oscillator.frequency.value = frequency;
-                oscillator.type = 'sine';
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-            } else {
-                oscillator.frequency.value = frequency;
-                oscillator.type = 'sawtooth';
-                gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-            }
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration);
+        // QUIZ
+        function startQuiz() {
+            appState.activeChallenge = 'daily';
+            appState.currentQuestion = 0;
+            appState.quizScore = 0;
+            showScreen('quizScreen');
+            loadQuestion();
         }
 
-        // Quiz Functions
         function loadQuestion() {
-            appState.answered = false;
-            nextBtn.disabled = true;
-            
+            appState.quizAnswered = false;
+            document.getElementById('quizNextBtn').disabled = true;
             const q = questions[appState.currentQuestion];
-            questionText.textContent = q.question;
-            mlContext.textContent = q.context;
-            
-            questionCard.classList.remove('correct', 'incorrect');
-            feedbackIcon.classList.remove('show');
-            feedbackIcon.textContent = '';
-            
-            progressBar.style.width = ((appState.currentQuestion + 1) / questions.length * 100) + '%';
-            progressText.textContent = `Question ${appState.currentQuestion + 1} of ${questions.length}`;
-            
-            answersContainer.innerHTML = '';
-            q.answers.forEach((answer, index) => {
+            document.getElementById('questionText').textContent = q.question;
+            document.getElementById('mlContext').textContent = q.context;
+            document.getElementById('questionCard').classList.remove('correct', 'incorrect');
+            document.getElementById('feedbackIcon').classList.remove('show');
+            document.getElementById('quizProgressBar').style.width = `${((appState.currentQuestion + 1) / questions.length) * 100}%`;
+            document.getElementById('quizProgressText').textContent = `Question ${appState.currentQuestion + 1} of ${questions.length}`;
+
+            const container = document.getElementById('answersContainer');
+            container.innerHTML = '';
+            q.answers.forEach((ans, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'answer-btn';
-                btn.textContent = answer;
-                btn.onclick = () => selectAnswer(index);
-                answersContainer.appendChild(btn);
+                btn.textContent = ans;
+                btn.onclick = () => selectAnswer(i);
+                container.appendChild(btn);
             });
         }
 
-        function selectAnswer(index) {
-            if (appState.answered) return;
-            
-            appState.answered = true;
+        function selectAnswer(idx) {
+            if (appState.quizAnswered) return;
+            appState.quizAnswered = true;
             const q = questions[appState.currentQuestion];
-            const buttons = answersContainer.querySelectorAll('.answer-btn');
-            
-            buttons.forEach(btn => btn.disabled = true);
-            
-            if (index === q.correct) {
-                appState.score++;
-                buttons[index].classList.add('correct');
-                questionCard.classList.add('correct');
-                feedbackIcon.textContent = '✓';
-                feedbackIcon.classList.add('show');
-                playSound(800, 0.2, 'correct');
-                setTimeout(() => playSound(1000, 0.15, 'correct'), 100);
+            const buttons = document.querySelectorAll('#answersContainer .answer-btn');
+            buttons.forEach(b => b.disabled = true);
+
+            if (idx === q.correct) {
+                appState.quizScore += 10;
+                buttons[idx].classList.add('correct');
+                document.getElementById('questionCard').classList.add('correct');
+                document.getElementById('feedbackIcon').textContent = '✓';
+                playSound(800, 0.2); setTimeout(() => playSound(1000, 0.15), 100);
             } else {
-                buttons[index].classList.add('incorrect');
+                buttons[idx].classList.add('incorrect');
                 buttons[q.correct].classList.add('correct');
-                questionCard.classList.add('incorrect');
-                feedbackIcon.textContent = '✗';
-                feedbackIcon.classList.add('show');
-                playSound(200, 0.3, 'incorrect');
+                document.getElementById('questionCard').classList.add('incorrect');
+                document.getElementById('feedbackIcon').textContent = '✗';
+                playSound(200, 0.3, 'sawtooth');
             }
-            
-            nextBtn.disabled = false;
+            document.getElementById('feedbackIcon').classList.add('show');
+            document.getElementById('quizNextBtn').disabled = false;
         }
 
-        function nextQuestion() {
+        function nextQuizQuestion() {
             appState.currentQuestion++;
-            
-            if (appState.currentQuestion < questions.length) {
-                loadQuestion();
+            if (appState.currentQuestion < questions.length) loadQuestion();
+            else showQuizResults();
+        }
+
+        function showQuizResults() {
+            document.getElementById('resultsTitle').textContent = '🎉 Quiz Complete!';
+            document.getElementById('scoreDisplay').textContent = `${appState.quizScore}/100`;
+            document.getElementById('scoreMessage').textContent = appState.quizScore >= 80 ? 'Outstanding!' : appState.quizScore >= 60 ? 'Great job!' : 'Good effort!';
+            document.getElementById('resultsStats').innerHTML = `
+                <div class="stat-row"><span class="stat-label">Correct Answers</span><span class="stat-value">${appState.quizScore / 10}/10</span></div>
+                <div class="stat-row"><span class="stat-label">Points Earned</span><span class="stat-value">${appState.quizScore}</span></div>
+            `;
+            document.getElementById('retryBtn').classList.add('hidden');
+            showScreen('resultsScreen');
+            playSound(523, 0.2); setTimeout(() => playSound(659, 0.2), 150); setTimeout(() => playSound(784, 0.3), 300);
+        }
+
+        // SORTER DRAG & DROP
+        let remainingTime = 45;
+        let draggedCard = null;
+
+        function startSorter() {
+            appState.activeChallenge = 'sevenDay';
+            appState.sorterCorrect = 0;
+            appState.sorterPoints = 0;
+            remainingTime = 45;
+            showScreen('sorterScreen');
+
+            const itemsZone = document.getElementById('itemsZone');
+            const saverZone = document.getElementById('saverZone');
+            const wasterZone = document.getElementById('wasterZone');
+            itemsZone.innerHTML = '';
+            saverZone.innerHTML = '<div class="category-label">WATER SAVER</div>';
+            wasterZone.innerHTML = '<div class="category-label">WATER WASTER</div>';
+
+            sorterItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.innerHTML = `${item.icon}<br><strong>${item.text}</strong>`;
+                card.dataset.type = item.type;
+                card.draggable = true;
+
+                card.addEventListener('dragstart', e => {
+                    draggedCard = card;
+                    setTimeout(() => card.classList.add('dragging'), 0);
+                });
+
+                card.addEventListener('dragend', () => {
+                    card.classList.remove('dragging');
+                    draggedCard = null;
+                });
+
+                // Mobile touch support
+                card.addEventListener('touchstart', e => {
+                    draggedCard = card;
+                    card.classList.add('dragging');
+                });
+
+                card.addEventListener('touchmove', e => {
+                    e.preventDefault();
+                });
+
+                itemsZone.appendChild(card);
+            });
+
+            [saverZone, wasterZone].forEach(zone => {
+                zone.addEventListener('dragover', e => e.preventDefault());
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    if (draggedCard) {
+                        const chosenType = zone.id === 'saverZone' ? 'SAVER' : 'WASTER';
+                        processSort(draggedCard, chosenType);
+                        draggedCard = null;
+                    }
+                });
+
+                zone.addEventListener('touchend', e => {
+                    if (draggedCard) {
+                        const chosenType = zone.id === 'saverZone' ? 'SAVER' : 'WASTER';
+                        processSort(draggedCard, chosenType);
+                        draggedCard = null;
+                    }
+                });
+            });
+
+            startSorterTimer();
+        }
+
+        function processSort(card, chosenType) {
+            const correctType = card.dataset.type;
+
+            if (chosenType === correctType) {
+                playSound(800, 0.2);
+                playSound(1200, 0.2, 'sine', 0.2);
+                appState.sorterCorrect++;
+                const targetZone = chosenType === 'SAVER' ? document.getElementById('saverZone') : document.getElementById('wasterZone');
+                const clone = card.cloneNode(true);
+                clone.classList.add('sorted-item');
+                clone.style.pointerEvents = 'none';
+                targetZone.appendChild(clone);
+                card.classList.add('sorted');
+
+                if (appState.sorterCorrect === 5) endSorter();
             } else {
-                showResults();
+                playSound(300, 0.4, 'sawtooth');
+                const msg = document.getElementById('warningMessage');
+                msg.style.display = 'block';
+                setTimeout(() => msg.style.display = 'none', 1500);
             }
         }
 
-        function showResults() {
-            showScreen(resultsScreen);
-            
-            const percentage = Math.round((appState.score / questions.length) * 100);
-            
-            document.getElementById('scoreDisplay').textContent = `${appState.score}/${questions.length}`;
-            document.getElementById('correctCount').textContent = appState.score;
-            document.getElementById('incorrectCount').textContent = questions.length - appState.score;
-            document.getElementById('accuracy').textContent = percentage + '%';
-            
-            let message = '';
-            if (percentage >= 90) {
-                message = '🌟 Outstanding! You\'re a water conservation expert!';
-            } else if (percentage >= 70) {
-                message = '👏 Great job! You have strong water management knowledge.';
-            } else if (percentage >= 50) {
-                message = '👍 Good effort! Keep learning about water conservation.';
-            } else {
-                message = '💡 Keep practicing! Review your water quality reports.';
+        function startSorterTimer() {
+            document.getElementById('timerText').textContent = `Time Left: ${remainingTime}s`;
+            document.getElementById('timerBar').style.width = '100%';
+            document.getElementById('timerBar').className = 'timer-bar';
+
+            appState.gameTimer = setInterval(() => {
+                remainingTime--;
+                document.getElementById('timerText').textContent = `Time Left: ${remainingTime}s`;
+                document.getElementById('timerBar').style.width = `${(remainingTime / 45) * 100}%`;
+                if (remainingTime <= 15) document.getElementById('timerBar').classList.add('warning');
+                if (remainingTime <= 8) document.getElementById('timerBar').classList.add('danger');
+                if (remainingTime <= 0) endSorter();
+            }, 1000);
+        }
+
+        function endSorter() {
+            clearInterval(appState.gameTimer);
+            appState.sorterPoints = appState.sorterCorrect * 20;
+
+            const success = appState.sorterCorrect === 5;
+            document.getElementById('resultsTitle').textContent = success ? '🎉 Perfect Sorting!' : '⏰ Time\'s Up!';
+            document.getElementById('scoreDisplay').textContent = `${appState.sorterPoints}/100`;
+            document.getElementById('scoreMessage').textContent = success ? 'Amazing! You\'re a water-saving pro.' : 'Nice try!';
+
+            document.getElementById('resultsStats').innerHTML = `
+                <div class="stat-row"><span class="stat-label">Correctly Sorted</span><span class="stat-value">${appState.sorterCorrect}/5</span></div>
+                <div class="stat-row"><span class="stat-label">Points Earned</span><span class="stat-value">${appState.sorterPoints}</span></div>
+            `;
+
+            document.getElementById('retryBtn').classList.toggle('hidden', success);
+            showScreen('resultsScreen');
+
+            if (success) {
+                playSound(523, 0.2); setTimeout(() => playSound(659, 0.2), 150); setTimeout(() => playSound(784, 0.3), 300);
             }
-            
-            document.getElementById('scoreMessage').textContent = message;
-            
-            playSound(523, 0.2, 'correct');
-            setTimeout(() => playSound(659, 0.2, 'correct'), 150);
-            setTimeout(() => playSound(784, 0.3, 'correct'), 300);
         }
 
         // Event Listeners
-        dailyChallengeCard.addEventListener('click', startQuiz);
-        nextBtn.addEventListener('click', nextQuestion);
-        document.getElementById('returnBtn').addEventListener('click', handleChallengeCompletionAndReturn);
+        document.getElementById('sevenDayChallengeCard').addEventListener('click', startSorter);
+        document.getElementById('dailyChallengeCard').addEventListener('click', startQuiz);
+        document.getElementById('quizNextBtn').addEventListener('click', nextQuizQuestion);
+        document.getElementById('returnBtn').addEventListener('click', () => {
+            const points = appState.activeChallenge === 'daily' ? appState.quizScore : appState.sorterPoints;
+            completeChallenge(points);
+        });
+        document.getElementById('retryBtn').addEventListener('click', startSorter);
 
-        // Initialize the rewards screen
         updateRewardsScreen();
     </script>
 </body>
