@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartWaterCare App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Mobile Phone Frame */
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000000;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 28px;
+            background: #000000;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #A3C1AD;
+            border-radius: 32px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .phone-screen::-webkit-scrollbar {
+            width: 0;
+            display: none;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            background: #E8E8E8;
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* REWARDS & CHALLENGES SCREEN */
+        .rewards-screen {
+            background: #A3C1AD;
+            min-height: 100%;
+            padding-bottom: 20px;
+        }
+
+        .screen-header {
+            background: #E8E8E8;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 20px;
+        }
+
+        .points-badges-card {
+            background: #E8E8E8;
+            border-radius: 24px;
+            padding: 30px;
+            margin: 0 20px 20px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .points-section, .badges-section {
+            text-align: center;
+            flex: 1;
+        }
+
+        .points-section {
+            border-right: 2px solid #999;
+        }
+
+        .trophy-icon, .badge-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .section-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #648877;
+        }
+
+        .challenges-header {
+            color: #FFF;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 0 20px 15px 20px;
+        }
+
+        .challenge-card {
+            background: #E8E8E8;
+            border-radius: 24px;
+            padding: 20px;
+            margin: 0 20px 15px 20px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .challenge-card:active {
+            transform: translateY(0);
+        }
+
+        .challenge-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        .challenge-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .progress-bar-bg {
+            background: #CCC;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: #2E5CB8;
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .leaderboard-btn {
+            background: #2E5CB8;
+            color: #FFF;
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 20px 20px 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: calc(100% - 40px);
+        }
+
+        .community-btn {
+            background: #E8E8E8;
+            color: #000;
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 0 20px 20px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: calc(100% - 40px);
+        }
+
+
+
+        /* QUIZ SCREEN */
+        .quiz-screen {
+            background: #A3C1AD;
+            min-height: 100%;
+            padding: 20px 16px 20px 16px;
+        }
+
+        .quiz-header {
+            background: #648877;
+            padding: 20px 16px;
+            margin: -20px -16px 20px -16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-header h1 {
+            color: #FFFFFF;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.3);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #FFFFFF, #E8F5E9);
+            height: 100%;
+            transition: width 0.4s ease;
+            border-radius: 3px;
+        }
+
+        .progress-text {
+            color: #FFFFFF;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .question-card {
+            background: #FFFFFF;
+            border: 3px solid #648877;
+            border-radius: 16px;
+            padding: 24px 20px;
+            margin: 0 0 20px 0;
+            box-shadow: 0 4px 12px rgba(100, 136, 119, 0.15);
+            position: relative;
+        }
+
+        .question-card.correct {
+            border-color: #4CAF50;
+            animation: pulse-green 0.5s ease;
+        }
+
+        .question-card.incorrect {
+            border-color: #EF4444;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulse-green {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .feedback-icon {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 28px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feedback-icon.show {
+            opacity: 1;
+        }
+
+        .question-text {
+            color: #2C3E50;
+            font-size: 16px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .answers-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .answer-btn {
+            background: #FFFFFF;
+            border: 2px solid #648877;
+            border-radius: 12px;
+            padding: 16px 16px;
+            font-size: 15px;
+            color: #2C3E50;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            border-color: #648877;
+            background: #F1F8F4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(100, 136, 119, 0.2);
+        }
+
+        .answer-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .answer-btn.correct {
+            background: #C8E6C9;
+            border-color: #4CAF50;
+            animation: flash-green 0.6s ease;
+        }
+
+        .answer-btn.incorrect {
+            background: #FFCDD2;
+            border-color: #EF4444;
+        }
+
+        @keyframes flash-green {
+            0%, 100% { background: #C8E6C9; }
+            50% { background: #81C784; }
+        }
+
+        .ml-context {
+            background: rgba(255, 255, 255, 0.7);
+            border-left: 4px solid #648877;
+            padding: 12px 14px;
+            margin: 16px 0;
+            border-radius: 8px;
+        }
+
+        .ml-context-text {
+            color: #2C3E50;
+            font-size: 12px;
+            line-height: 1.5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ml-context-text::before {
+            content: "🤖";
+            font-size: 16px;
+        }
+
+        .next-btn {
+            width: 100%;
+            background: #648877;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .next-btn:hover:not(:disabled) {
+            background: #567568;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(100, 136, 119, 0.3);
+        }
+
+        .next-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .next-btn:disabled {
+            background: #9CA3AF;
+            cursor: not-allowed;
+        }
+
+        /* RESULTS SCREEN */
+        .results-screen {
+            background: #A3C1AD;
+            min-height: 100%;
+            padding: 30px 20px 20px 20px;
+            text-align: center;
+        }
+
+        .results-screen h2 {
+            color: #648877;
+            font-size: 24px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .score-display {
+            font-size: 64px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 24px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-message {
+            font-size: 16px;
+            color: #2C3E50;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .results-stats {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+            border: 2px solid #648877;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(100, 136, 119, 0.2);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: #5A6C57;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            color: #2C3E50;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .return-btn {
+            width: 100%;
+            background: #648877;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .return-btn:hover {
+            background: #567568;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(100, 136, 119, 0.3);
+        }
+
+        .return-btn:active {
+            transform: translateY(0);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 400px) {
+            .phone-frame {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                padding: 0;
+            }
+
+            .phone-screen {
+                border-radius: 0;
+            }
+
+            .phone-notch {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span>5:13 PM</span>
+                <div class="status-icons">
+                    <span>⏰</span>
+                    <span>📶</span>
+                    <span>📡</span>
+                    <span>🔋</span>
+                </div>
+            </div>
+
+            <!-- REWARDS & CHALLENGES SCREEN -->
+            <div id="rewardsScreen" class="rewards-screen">
+                <div class="screen-header">Rewards & Challenges</div>
+
+                <div class="points-badges-card">
+                    <div class="points-section">
+                        <div class="trophy-icon">🏆</div>
+                        <div class="section-title">Total Points</div>
+                        <div class="section-value" id="totalPoints">1000</div>
+                    </div>
+                    <div class="badges-section">
+                        <div class="badge-icon">🏅</div>
+                        <div class="section-title">Badges Earned</div>
+                        <div class="section-value">7</div>
+                    </div>
+                </div>
+
+                <div class="challenges-header">Active Challenges</div>
+
+                <div class="challenge-card">
+                    <div class="challenge-title">7-Day Water Saver</div>
+                    <div class="challenge-info">
+                        <span>3/7 completed</span>
+                        <span>1 badge</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: 43%;"></div>
+                    </div>
+                </div>
+
+                <div class="challenge-card" id="dailyChallengeCard">
+                    <div class="challenge-title">Daily Conservation Challenge</div>
+                    <div class="challenge-info">
+                        <span id="dailyChallengeProgress">4/7 completed</span>
+                        <span>100pts</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="dailyProgressBar" style="width: 57%;"></div>
+                    </div>
+                </div>
+
+                <button class="leaderboard-btn">View Leaderboard</button>
+                <button class="community-btn">Community Metrics</button>
+            </div>
+
+            <!-- QUIZ SCREEN -->
+            <div id="quizScreen" class="quiz-screen hidden">
+                <div class="quiz-header">
+                    <h1>Daily Conservation Challenge</h1>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Question 1 of 10</div>
+                </div>
+
+                <div class="question-card" id="questionCard">
+                    <div class="feedback-icon" id="feedbackIcon"></div>
+                    <div class="question-text" id="questionText"></div>
+                </div>
+
+                <div class="answers-container" id="answersContainer"></div>
+
+                <div class="ml-context">
+                    <div class="ml-context-text" id="mlContext"></div>
+                </div>
+
+                <button class="next-btn" id="nextBtn" disabled>Next Question</button>
+            </div>
+
+            <!-- RESULTS SCREEN -->
+            <div id="resultsScreen" class="results-screen hidden">
+                <h2>🎉 Challenge Complete!</h2>
+                <div class="score-display" id="scoreDisplay"></div>
+                <div class="score-message" id="scoreMessage"></div>
+                
+                <div class="results-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">Correct Answers</span>
+                        <span class="stat-value" id="correctCount"></span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Incorrect Answers</span>
+                        <span class="stat-value" id="incorrectCount"></span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Accuracy</span>
+                        <span class="stat-value" id="accuracy"></span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Points Earned</span>
+                        <span class="stat-value" id="pointsEarned">100</span>
+                    </div>
+                </div>
+
+                <button class="return-btn" id="returnBtn">Return to Rewards & Challenges</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Based on your water quality history, which parameter is the most crucial to monitor this week?",
+                answers: ["pH Level", "Turbidity", "Chlorine Content", "Temperature"],
+                correct: 1,
+                context: "This quiz is customized based on your recent Turbidity alerts."
+            },
+            {
+                question: "Your water usage has increased by 15% this month. What's the most effective conservation strategy?",
+                answers: ["Shorter showers", "Fix leaking faucets", "Use dishwasher efficiently", "All of the above"],
+                correct: 3,
+                context: "Personalized based on your usage patterns showing peak consumption during morning hours."
+            },
+            {
+                question: "What does a sudden spike in turbidity typically indicate?",
+                answers: ["Clean water", "Pipe corrosion or sediment", "High temperature", "Low pH"],
+                correct: 1,
+                context: "Your sensors detected 3 turbidity anomalies last week."
+            },
+            {
+                question: "Based on your monthly data, when do you use the most water?",
+                answers: ["6-8 AM", "12-2 PM", "6-8 PM", "10 PM-12 AM"],
+                correct: 0,
+                context: "ML analysis shows your peak usage correlates with morning routines."
+            },
+            {
+                question: "Your pH levels have been consistently at 6.5. What action should you take?",
+                answers: ["Nothing, it's perfect", "Add alkaline treatment", "Reduce water usage", "Check for contamination"],
+                correct: 1,
+                context: "Historical data shows pH trending below optimal range of 7.0-8.5."
+            },
+            {
+                question: "Which appliance in your home typically uses the most water?",
+                answers: ["Washing machine", "Toilet", "Shower", "Dishwasher"],
+                correct: 1,
+                context: "Your usage data indicates bathroom fixtures account for 45% of consumption."
+            },
+            {
+                question: "What's the ideal chlorine level for safe drinking water?",
+                answers: ["0.2-0.5 ppm", "0.5-1.0 ppm", "1.0-4.0 ppm", "4.0-8.0 ppm"],
+                correct: 2,
+                context: "Your recent chlorine readings have been within safe EPA standards."
+            },
+            {
+                question: "You've saved 120 gallons this week. How does this compare to your neighborhood?",
+                answers: ["Below average", "Average", "Above average", "Top 10%"],
+                correct: 2,
+                context: "ML comparison with local users shows you're in the 65th percentile."
+            },
+            {
+                question: "What causes water hardness?",
+                answers: ["Bacteria", "Dissolved minerals", "Temperature", "Chlorine"],
+                correct: 1,
+                context: "Your area has moderately hard water (120-180 mg/L) according to sensor data."
+            },
+            {
+                question: "Based on your conservation progress, what's your projected annual water savings?",
+                answers: ["500 gallons", "2,000 gallons", "5,000 gallons", "10,000 gallons"],
+                correct: 2,
+                context: "ML projection based on your 3-month trend shows significant improvement."
+            }
+        ];
+
+        // App State Management
+        let appState = {
+            dailyChallengeCompleted: 4,
+            totalPoints: 1000,
+            currentQuestion: 0,
+            score: 0,
+            answered: false
+        };
+
+        // Screen Elements
+        const rewardsScreen = document.getElementById('rewardsScreen');
+        const quizScreen = document.getElementById('quizScreen');
+        const resultsScreen = document.getElementById('resultsScreen');
+        const dailyChallengeCard = document.getElementById('dailyChallengeCard');
+
+        // Quiz Elements
+        const questionCard = document.getElementById('questionCard');
+        const questionText = document.getElementById('questionText');
+        const answersContainer = document.getElementById('answersContainer');
+        const mlContext = document.getElementById('mlContext');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const feedbackIcon = document.getElementById('feedbackIcon');
+
+        // Audio context
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Navigation Functions
+        function showScreen(screen) {
+            rewardsScreen.classList.add('hidden');
+            quizScreen.classList.add('hidden');
+            resultsScreen.classList.add('hidden');
+            screen.classList.remove('hidden');
+            
+            // Scroll to top when changing screens
+            document.querySelector('.phone-screen').scrollTop = 0;
+        }
+
+        function startQuiz() {
+            appState.currentQuestion = 0;
+            appState.score = 0;
+            appState.answered = false;
+            showScreen(quizScreen);
+            loadQuestion();
+        }
+
+        function updateRewardsScreen() {
+            const completed = appState.dailyChallengeCompleted;
+            const progressPercent = (completed / 7) * 100;
+            
+            document.getElementById('dailyChallengeProgress').textContent = `${completed}/7 completed`;
+            document.getElementById('dailyProgressBar').style.width = progressPercent + '%';
+            document.getElementById('totalPoints').textContent = appState.totalPoints;
+        }
+
+        function handleChallengeCompletionAndReturn() {
+            // Increment challenge progress
+            appState.dailyChallengeCompleted++;
+            
+            // Add points
+            appState.totalPoints += 100;
+            
+            // Update UI and return to rewards screen
+            updateRewardsScreen();
+            showScreen(rewardsScreen);
+        }
+
+        // Sound Functions
+        function playSound(frequency, duration, type = 'correct') {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            if (type === 'correct') {
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            } else {
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sawtooth';
+                gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            }
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        // Quiz Functions
+        function loadQuestion() {
+            appState.answered = false;
+            nextBtn.disabled = true;
+            
+            const q = questions[appState.currentQuestion];
+            questionText.textContent = q.question;
+            mlContext.textContent = q.context;
+            
+            questionCard.classList.remove('correct', 'incorrect');
+            feedbackIcon.classList.remove('show');
+            feedbackIcon.textContent = '';
+            
+            progressBar.style.width = ((appState.currentQuestion + 1) / questions.length * 100) + '%';
+            progressText.textContent = `Question ${appState.currentQuestion + 1} of ${questions.length}`;
+            
+            answersContainer.innerHTML = '';
+            q.answers.forEach((answer, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.textContent = answer;
+                btn.onclick = () => selectAnswer(index);
+                answersContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(index) {
+            if (appState.answered) return;
+            
+            appState.answered = true;
+            const q = questions[appState.currentQuestion];
+            const buttons = answersContainer.querySelectorAll('.answer-btn');
+            
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (index === q.correct) {
+                appState.score++;
+                buttons[index].classList.add('correct');
+                questionCard.classList.add('correct');
+                feedbackIcon.textContent = '✓';
+                feedbackIcon.classList.add('show');
+                playSound(800, 0.2, 'correct');
+                setTimeout(() => playSound(1000, 0.15, 'correct'), 100);
+            } else {
+                buttons[index].classList.add('incorrect');
+                buttons[q.correct].classList.add('correct');
+                questionCard.classList.add('incorrect');
+                feedbackIcon.textContent = '✗';
+                feedbackIcon.classList.add('show');
+                playSound(200, 0.3, 'incorrect');
+            }
+            
+            nextBtn.disabled = false;
+        }
+
+        function nextQuestion() {
+            appState.currentQuestion++;
+            
+            if (appState.currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            showScreen(resultsScreen);
+            
+            const percentage = Math.round((appState.score / questions.length) * 100);
+            
+            document.getElementById('scoreDisplay').textContent = `${appState.score}/${questions.length}`;
+            document.getElementById('correctCount').textContent = appState.score;
+            document.getElementById('incorrectCount').textContent = questions.length - appState.score;
+            document.getElementById('accuracy').textContent = percentage + '%';
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '🌟 Outstanding! You\'re a water conservation expert!';
+            } else if (percentage >= 70) {
+                message = '👏 Great job! You have strong water management knowledge.';
+            } else if (percentage >= 50) {
+                message = '👍 Good effort! Keep learning about water conservation.';
+            } else {
+                message = '💡 Keep practicing! Review your water quality reports.';
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+            
+            playSound(523, 0.2, 'correct');
+            setTimeout(() => playSound(659, 0.2, 'correct'), 150);
+            setTimeout(() => playSound(784, 0.3, 'correct'), 300);
+        }
+
+        // Event Listeners
+        dailyChallengeCard.addEventListener('click', startQuiz);
+        nextBtn.addEventListener('click', nextQuestion);
+        document.getElementById('returnBtn').addEventListener('click', handleChallengeCompletionAndReturn);
+
+        // Initialize the rewards screen
+        updateRewardsScreen();
+    </script>
+</body>
+</html>
