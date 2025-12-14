@@ -21,7 +21,6 @@
             padding: 20px;
         }
 
-        /* Mobile Phone Frame */
         .phone-frame {
             width: 375px;
             height: 812px;
@@ -49,20 +48,12 @@
             height: 100%;
             background: #A3C1AD;
             border-radius: 32px;
-            overflow: hidden; /* No scrollbars ever */
+            overflow: hidden;
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Completely hide scrollbars everywhere */
-        .phone-screen, .phone-screen * {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .phone-screen::-webkit-scrollbar, *::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Status Bar */
         .status-bar {
             background: #E8E8E8;
             padding: 8px 20px;
@@ -72,17 +63,34 @@
             font-size: 14px;
             font-weight: 600;
             color: #000;
-            position: sticky;
-            top: 0;
             z-index: 5;
         }
 
-        /* REWARDS & CHALLENGES SCREEN */
-        .rewards-screen {
-            background: #A3C1AD;
-            min-height: 100%;
-            padding-bottom: 20px;
+        .screen-content {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
         }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding-bottom: 80px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Hide scrollbars */
+        .screen::-webkit-scrollbar { display: none; }
+        .screen { -ms-overflow-style: none; scrollbar-width: none; }
 
         .screen-header {
             background: #E8E8E8;
@@ -95,6 +103,7 @@
             margin-bottom: 20px;
         }
 
+        /* Rewards Screen */
         .points-badges-card {
             background: #E8E8E8;
             border-radius: 24px;
@@ -207,11 +216,11 @@
             width: calc(100% - 40px);
         }
 
-        /* QUIZ SCREEN */
+        /* Quiz Screen */
         .quiz-screen {
             background: #A3C1AD;
             min-height: 100%;
-            padding: 20px 16px;
+            padding: 20px 16px 80px 16px;
         }
 
         .quiz-header {
@@ -341,11 +350,11 @@
         .next-btn:hover:not(:disabled) { background: #567568; transform: translateY(-2px); }
         .next-btn:disabled { background: #9CA3AF; cursor: not-allowed; }
 
-        /* SORTER GAME SCREEN */
+        /* Sorter Game Screen */
         .sorter-screen {
             background: #A3C1AD;
             min-height: 100%;
-            padding: 20px 16px;
+            padding: 20px 16px 80px 16px;
             display: flex;
             flex-direction: column;
             user-select: none;
@@ -502,11 +511,11 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
 
-        /* RESULTS SCREEN */
+        /* Results Screen */
         .results-screen {
             background: #A3C1AD;
             min-height: 100%;
-            padding: 30px 20px;
+            padding: 30px 20px 80px 20px;
             text-align: center;
         }
 
@@ -573,6 +582,192 @@
 
         .retry-btn:hover { background: #DC2626; }
 
+        /* Educational & Modules */
+        .tip-box {
+            background: #E8E8E8;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px;
+            font-size: 16px;
+            color: #000;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .categories-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 20px;
+            padding-top: 0;
+        }
+
+        .category-card {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .category-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .category-icon {
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+        
+        .category-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2C3E50;
+            text-align: left;
+        }
+
+        .progress-container {
+            background: #E8E8E8;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .progress-bar-outer {
+            background: #CCC;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            transition: width 0.5s ease;
+        }
+
+        .module-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .module-card.completed {
+            opacity: 0.6;
+        }
+
+        .module-icon {
+            font-size: 40px;
+            margin-right: 20px;
+        }
+
+        .module-info {
+            flex: 1;
+        }
+
+        .module-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .module-meta {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .module-status {
+            background: #4CAF50;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .module-status.in-progress {
+            background: #2196F3;
+        }
+
+        /* Video Lesson */
+        .video-lesson {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .video-container {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+        }
+
+        .complete-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            width: 80%;
+            cursor: pointer;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #E8E8E8;
+            border-top: 1px solid #CCC;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active {
+            color: #648877;
+        }
+
+        .nav-icon {
+            font-size: 26px;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+        }
+
         .hidden { display: none; }
     </style>
 </head>
@@ -587,111 +782,228 @@
                 </div>
             </div>
 
-            <!-- REWARDS SCREEN -->
-            <div id="rewardsScreen" class="rewards-screen">
-                <div class="screen-header">Rewards & Challenges</div>
+            <div class="screen-content">
+                <!-- REWARDS SCREEN -->
+                <div id="rewardsScreen" class="screen">
+                    <div class="screen-header">Rewards & Challenges</div>
 
-                <div class="points-badges-card">
-                    <div class="points-section">
-                        <div class="trophy-icon">🏆</div>
-                        <div class="section-title">Total Points</div>
-                        <div class="section-value" id="totalPoints">1000</div>
+                    <div class="points-badges-card">
+                        <div class="points-section">
+                            <div class="trophy-icon">🏆</div>
+                            <div class="section-title">Total Points</div>
+                            <div class="section-value" id="totalPoints">1000</div>
+                        </div>
+                        <div class="badges-section">
+                            <div class="badge-icon">🏅</div>
+                            <div class="section-title">Badges Earned</div>
+                            <div class="section-value">7</div>
+                        </div>
                     </div>
-                    <div class="badges-section">
-                        <div class="badge-icon">🏅</div>
-                        <div class="section-title">Badges Earned</div>
-                        <div class="section-value">7</div>
+
+                    <div class="challenges-header">Active Challenges</div>
+
+                    <div class="challenge-card" id="sevenDayChallengeCard">
+                        <div class="challenge-title">7-Day Water Saver</div>
+                        <div class="challenge-info">
+                            <span id="sevenDayProgress">3/7 completed</span>
+                            <span>1 badge</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="sevenDayProgressBar" style="width: 43%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" id="dailyChallengeCard">
+                        <div class="challenge-title">Daily Conservation Challenge</div>
+                        <div class="challenge-info">
+                            <span id="dailyChallengeProgress">4/7 completed</span>
+                            <span>100pts</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="dailyProgressBar" style="width: 57%;"></div>
+                        </div>
+                    </div>
+
+                    <button class="leaderboard-btn">View Leaderboard</button>
+                    <button class="community-btn">Community Metrics</button>
+                </div>
+
+                <!-- QUIZ SCREEN -->
+                <div id="quizScreen" class="screen">
+                    <div class="quiz-header">
+                        <h1>Daily Conservation Challenge</h1>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="quizProgressBar"></div>
+                        </div>
+                        <div class="progress-text" id="quizProgressText">Question 1 of 10</div>
+                    </div>
+
+                    <div class="question-card" id="questionCard">
+                        <div class="feedback-icon" id="feedbackIcon"></div>
+                        <div class="question-text" id="questionText"></div>
+                    </div>
+
+                    <div class="answers-container" id="answersContainer"></div>
+
+                    <div class="ml-context">
+                        <div class="ml-context-text" id="mlContext"></div>
+                    </div>
+
+                    <button class="next-btn" id="quizNextBtn" disabled>Next Question</button>
+                </div>
+
+                <!-- SORTER GAME SCREEN -->
+                <div id="sorterScreen" class="screen">
+                    <div class="sorter-header">
+                        <h1>Water Conservation Sorter</h1>
+                        <div class="timer-container">
+                            <div class="timer-bar" id="timerBar"></div>
+                        </div>
+                        <div class="timer-text" id="timerText">Time Left: 45s</div>
+                    </div>
+
+                    <div class="sorter-instructions">Drag each habit into the correct category</div>
+
+                    <div class="items-zone" id="itemsZone"></div>
+
+                    <div class="categories-container">
+                        <div class="category-zone saver-zone" id="saverZone">
+                            <div class="category-label">WATER SAVER</div>
+                        </div>
+                        <div class="category-zone waster-zone" id="wasterZone">
+                            <div class="category-label">WATER WASTER</div>
+                        </div>
+                    </div>
+
+                    <div id="warningMessage">Incorrect category!</div>
+                </div>
+
+                <!-- RESULTS SCREEN -->
+                <div id="resultsScreen" class="screen">
+                    <h2 id="resultsTitle">Challenge Complete!</h2>
+                    <div class="score-display" id="scoreDisplay"></div>
+                    <div class="score-message" id="scoreMessage"></div>
+
+                    <div class="results-stats" id="resultsStats"></div>
+
+                    <button class="return-btn" id="returnBtn">Return to Rewards & Challenges</button>
+                    <button class="retry-btn hidden" id="retryBtn">Try Again</button>
+                </div>
+
+                <!-- EDUCATIONAL CENTER -->
+                <div id="educationalCenter" class="screen">
+                    <div class="screen-header">Educational Center</div>
+
+                    <div class="tip-box">
+                        <strong>Tip of the Day:</strong><br>
+                        A running tap uses about 6 liters of water per minute. Turn it off while brushing your teeth to save up to 12 liters per day!
+                    </div>
+
+                    <div class="categories-vertical">
+                        <div class="category-card" onclick="showScreen('conservationModules')">
+                            <div class="category-icon">💧</div>
+                            <div class="category-text">Conservation</div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">🛁</div>
+                            <div class="category-text">Sanitation</div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">🔬</div>
+                            <div class="category-text">Quality</div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-icon">🌿</div>
+                            <div class="category-text">Gardens</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="challenges-header">Active Challenges</div>
+                <!-- CONSERVATION MODULES -->
+                <div id="conservationModules" class="screen">
+                    <div class="screen-header">Conservation Modules</div>
 
-                <div class="challenge-card" id="sevenDayChallengeCard">
-                    <div class="challenge-title">7-Day Water Saver</div>
-                    <div class="challenge-info">
-                        <span id="sevenDayProgress">3/7 completed</span>
-                        <span>1 badge</span>
+                    <div class="progress-container">
+                        <div id="modulesProgressText">1/4 Modules Completed</div>
+                        <div class="progress-bar-outer">
+                            <div class="progress-bar-inner" id="modulesProgressBar"></div>
+                        </div>
                     </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="sevenDayProgressBar" style="width: 43%;"></div>
+
+                    <div class="module-card completed" id="moduleLeaks">
+                        <div class="module-icon">🔧</div>
+                        <div class="module-info">
+                            <div class="module-title">Fixing Household Leaks</div>
+                            <div class="module-meta">5 min • 50 pts</div>
+                        </div>
+                        <div class="module-status">Complete</div>
+                    </div>
+
+                    <div class="module-card" id="moduleGardening">
+                        <div class="module-icon">🌱</div>
+                        <div class="module-info">
+                            <div class="module-title">Water-Efficient Gardening</div>
+                            <div class="module-meta">8 min • 75 pts</div>
+                        </div>
+                        <div class="module-status in-progress">In Progress</div>
+                    </div>
+
+                    <div class="module-card" id="moduleWaterBill" onclick="showScreen('videoLesson')">
+                        <div class="module-icon">📄</div>
+                        <div class="module-info">
+                            <div class="module-title">Understanding Your Water Bill</div>
+                            <div class="module-meta">1 min • 50 pts</div>
+                        </div>
+                    </div>
+
+                    <div class="module-card">
+                        <div class="module-icon">🚰</div>
+                        <div class="module-info">
+                            <div class="module-title">Low-Flow Fixtures Guide</div>
+                            <div class="module-meta">7 min • 75 pts</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="challenge-card" id="dailyChallengeCard">
-                    <div class="challenge-title">Daily Conservation Challenge</div>
-                    <div class="challenge-info">
-                        <span id="dailyChallengeProgress">4/7 completed</span>
-                        <span>100pts</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="dailyProgressBar" style="width: 57%;"></div>
+                <!-- VIDEO LESSON -->
+                <div id="videoLesson" class="screen">
+                    <div class="screen-header">Understanding Your Water Bill</div>
+
+                    <div class="video-lesson">
+                        <div class="video-container">
+                            <video controls autoplay>
+                                <source src="understanding-water-bill.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+
+                        <button class="complete-btn" id="completeModuleBtn">Mark as Complete</button>
                     </div>
                 </div>
-
-                <button class="leaderboard-btn">View Leaderboard</button>
-                <button class="community-btn">Community Metrics</button>
             </div>
 
-            <!-- QUIZ SCREEN -->
-            <div id="quizScreen" class="quiz-screen hidden">
-                <div class="quiz-header">
-                    <h1>Daily Conservation Challenge</h1>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="quizProgressBar"></div>
-                    </div>
-                    <div class="progress-text" id="quizProgressText">Question 1 of 10</div>
+            <!-- BOTTOM NAVIGATION -->
+            <div class="bottom-nav">
+                <div class="nav-item">
+                    <div class="nav-icon">🏠</div>
+                    <div class="nav-label">Home</div>
                 </div>
-
-                <div class="question-card" id="questionCard">
-                    <div class="feedback-icon" id="feedbackIcon"></div>
-                    <div class="question-text" id="questionText"></div>
+                <div class="nav-item">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-label">Usage</div>
                 </div>
-
-                <div class="answers-container" id="answersContainer"></div>
-
-                <div class="ml-context">
-                    <div class="ml-context-text" id="mlContext"></div>
+                <div class="nav-item active" onclick="showScreen('educationalCenter')">
+                    <div class="nav-icon">📚</div>
+                    <div class="nav-label">Learn</div>
                 </div>
-
-                <button class="next-btn" id="quizNextBtn" disabled>Next Question</button>
-            </div>
-
-            <!-- SORTER GAME SCREEN -->
-            <div id="sorterScreen" class="sorter-screen hidden">
-                <div class="sorter-header">
-                    <h1>Water Conservation Sorter</h1>
-                    <div class="timer-container">
-                        <div class="timer-bar" id="timerBar"></div>
-                    </div>
-                    <div class="timer-text" id="timerText">Time Left: 45s</div>
+                <div class="nav-item active" onclick="showScreen('rewardsScreen')">
+                    <div class="nav-icon">🏆</div>
+                    <div class="nav-label">Rewards</div>
                 </div>
-
-                <div class="sorter-instructions">Drag each habit into the correct category</div>
-
-                <div class="items-zone" id="itemsZone"></div>
-
-                <div class="categories-container">
-                    <div class="category-zone saver-zone" id="saverZone">
-                        <div class="category-label">WATER SAVER</div>
-                    </div>
-                    <div class="category-zone waster-zone" id="wasterZone">
-                        <div class="category-label">WATER WASTER</div>
-                    </div>
+                <div class="nav-item">
+                    <div class="nav-icon">⚙️</div>
+                    <div class="nav-label">Settings</div>
                 </div>
-
-                <div id="warningMessage">Incorrect category!</div>
-            </div>
-
-            <!-- RESULTS SCREEN -->
-            <div id="resultsScreen" class="results-screen hidden">
-                <h2 id="resultsTitle">🎉 Challenge Complete!</h2>
-                <div class="score-display" id="scoreDisplay"></div>
-                <div class="score-message" id="scoreMessage"></div>
-
-                <div class="results-stats" id="resultsStats"></div>
-
-                <button class="return-btn" id="returnBtn">Return to Rewards & Challenges</button>
-                <button class="retry-btn hidden" id="retryBtn">Try Again</button>
             </div>
         </div>
     </div>
@@ -719,16 +1031,16 @@
         ];
 
         let appState = {
+            totalPoints: 1000,
             sevenDayCompleted: 3,
             dailyChallengeCompleted: 4,
-            totalPoints: 1000,
+            modulesCompleted: 1,
+            waterBillCompleted: false,
             currentQuestion: 0,
             quizScore: 0,
-            quizAnswered: false,
             sorterCorrect: 0,
             sorterPoints: 0,
-            gameTimer: null,
-            activeChallenge: null
+            gameTimer: null
         };
 
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -747,32 +1059,51 @@
         }
 
         function showScreen(id) {
-            ['rewardsScreen', 'quizScreen', 'sorterScreen', 'resultsScreen'].forEach(s => 
-                document.getElementById(s).classList.add('hidden')
-            );
-            document.getElementById(id).classList.remove('hidden');
-            document.querySelector('.phone-screen').scrollTop = 0;
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            if (id === 'rewardsScreen') {
+                document.querySelectorAll('.nav-item')[3].classList.add('active');
+            } else if (id === 'educationalCenter' || id === 'conservationModules' || id === 'videoLesson') {
+                document.querySelectorAll('.nav-item')[2].classList.add('active');
+            }
         }
 
-        function updateRewardsScreen() {
+        function updateAll() {
+            document.getElementById('totalPoints').textContent = appState.totalPoints;
             document.getElementById('sevenDayProgress').textContent = `${appState.sevenDayCompleted}/7 completed`;
             document.getElementById('sevenDayProgressBar').style.width = `${(appState.sevenDayCompleted / 7) * 100}%`;
             document.getElementById('dailyChallengeProgress').textContent = `${appState.dailyChallengeCompleted}/7 completed`;
             document.getElementById('dailyProgressBar').style.width = `${(appState.dailyChallengeCompleted / 7) * 100}%`;
-            document.getElementById('totalPoints').textContent = appState.totalPoints;
+
+            const progress = (appState.modulesCompleted / 4) * 100;
+            document.getElementById('modulesProgressBar').style.width = `${progress}%`;
+            document.getElementById('modulesProgressText').textContent = `${appState.modulesCompleted}/4 Modules Completed`;
+
+            const waterBillCard = document.getElementById('moduleWaterBill');
+            if (appState.waterBillCompleted) {
+                waterBillCard.classList.add('completed');
+                if (!waterBillCard.querySelector('.module-status')) {
+                    waterBillCard.querySelector('.module-info').insertAdjacentHTML('afterend', '<div class="module-status">Complete</div>');
+                }
+                waterBillCard.onclick = null;
+            }
         }
 
-        function completeChallenge(pointsEarned) {
-            appState.totalPoints += pointsEarned;
-            if (appState.activeChallenge === 'daily') appState.dailyChallengeCompleted = Math.min(appState.dailyChallengeCompleted + 1, 7);
-            if (appState.activeChallenge === 'sevenDay') appState.sevenDayCompleted = Math.min(appState.sevenDayCompleted + 1, 7);
-            updateRewardsScreen();
-            showScreen('rewardsScreen');
-        }
+        // Module Completion (silent)
+        document.getElementById('completeModuleBtn').addEventListener('click', () => {
+            if (!appState.waterBillCompleted) {
+                appState.waterBillCompleted = true;
+                appState.modulesCompleted++;
+                appState.totalPoints += 50;
+                updateAll();
+                showScreen('conservationModules');
+            }
+        });
 
-        // QUIZ
+        // Quiz Logic
         function startQuiz() {
-            appState.activeChallenge = 'daily';
             appState.currentQuestion = 0;
             appState.quizScore = 0;
             showScreen('quizScreen');
@@ -780,15 +1111,20 @@
         }
 
         function loadQuestion() {
-            appState.quizAnswered = false;
-            document.getElementById('quizNextBtn').disabled = true;
             const q = questions[appState.currentQuestion];
             document.getElementById('questionText').textContent = q.question;
             document.getElementById('mlContext').textContent = q.context;
-            document.getElementById('questionCard').classList.remove('correct', 'incorrect');
-            document.getElementById('feedbackIcon').classList.remove('show');
             document.getElementById('quizProgressBar').style.width = `${((appState.currentQuestion + 1) / questions.length) * 100}%`;
             document.getElementById('quizProgressText').textContent = `Question ${appState.currentQuestion + 1} of ${questions.length}`;
+
+            // Reset question card styling
+            const questionCard = document.getElementById('questionCard');
+            questionCard.classList.remove('correct', 'incorrect');
+            
+            // Reset feedback icon
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            feedbackIcon.classList.remove('show');
+            feedbackIcon.textContent = '';
 
             const container = document.getElementById('answersContainer');
             container.innerHTML = '';
@@ -799,11 +1135,18 @@
                 btn.onclick = () => selectAnswer(i);
                 container.appendChild(btn);
             });
+
+            // Change button text for last question
+            if (appState.currentQuestion === questions.length - 1) {
+                document.getElementById('quizNextBtn').textContent = 'View Results';
+            } else {
+                document.getElementById('quizNextBtn').textContent = 'Next Question';
+            }
+
+            document.getElementById('quizNextBtn').disabled = true;
         }
 
         function selectAnswer(idx) {
-            if (appState.quizAnswered) return;
-            appState.quizAnswered = true;
             const q = questions[appState.currentQuestion];
             const buttons = document.querySelectorAll('#answersContainer .answer-btn');
             buttons.forEach(b => b.disabled = true);
@@ -825,11 +1168,14 @@
             document.getElementById('quizNextBtn').disabled = false;
         }
 
-        function nextQuizQuestion() {
+        document.getElementById('quizNextBtn').addEventListener('click', () => {
             appState.currentQuestion++;
-            if (appState.currentQuestion < questions.length) loadQuestion();
-            else showQuizResults();
-        }
+            if (appState.currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showQuizResults();
+            }
+        });
 
         function showQuizResults() {
             document.getElementById('resultsTitle').textContent = '🎉 Quiz Complete!';
@@ -841,17 +1187,17 @@
             `;
             document.getElementById('retryBtn').classList.add('hidden');
             showScreen('resultsScreen');
-            playSound(523, 0.2); setTimeout(() => playSound(659, 0.2), 150); setTimeout(() => playSound(784, 0.3), 300);
+            appState.totalPoints += appState.quizScore;
+            appState.dailyChallengeCompleted = Math.min(appState.dailyChallengeCompleted + 1, 7);
+            updateAll();
         }
 
-        // SORTER DRAG & DROP
+        // Sorter Logic
         let remainingTime = 45;
         let draggedCard = null;
 
         function startSorter() {
-            appState.activeChallenge = 'sevenDay';
             appState.sorterCorrect = 0;
-            appState.sorterPoints = 0;
             remainingTime = 45;
             showScreen('sorterScreen');
 
@@ -879,16 +1225,6 @@
                     draggedCard = null;
                 });
 
-                // Mobile touch support
-                card.addEventListener('touchstart', e => {
-                    draggedCard = card;
-                    card.classList.add('dragging');
-                });
-
-                card.addEventListener('touchmove', e => {
-                    e.preventDefault();
-                });
-
                 itemsZone.appendChild(card);
             });
 
@@ -899,15 +1235,6 @@
                     if (draggedCard) {
                         const chosenType = zone.id === 'saverZone' ? 'SAVER' : 'WASTER';
                         processSort(draggedCard, chosenType);
-                        draggedCard = null;
-                    }
-                });
-
-                zone.addEventListener('touchend', e => {
-                    if (draggedCard) {
-                        const chosenType = zone.id === 'saverZone' ? 'SAVER' : 'WASTER';
-                        processSort(draggedCard, chosenType);
-                        draggedCard = null;
                     }
                 });
             });
@@ -920,7 +1247,6 @@
 
             if (chosenType === correctType) {
                 playSound(800, 0.2);
-                playSound(1200, 0.2, 'sine', 0.2);
                 appState.sorterCorrect++;
                 const targetZone = chosenType === 'SAVER' ? document.getElementById('saverZone') : document.getElementById('wasterZone');
                 const clone = card.cloneNode(true);
@@ -928,20 +1254,17 @@
                 clone.style.pointerEvents = 'none';
                 targetZone.appendChild(clone);
                 card.classList.add('sorted');
-
                 if (appState.sorterCorrect === 5) endSorter();
             } else {
                 playSound(300, 0.4, 'sawtooth');
-                const msg = document.getElementById('warningMessage');
-                msg.style.display = 'block';
-                setTimeout(() => msg.style.display = 'none', 1500);
+                document.getElementById('warningMessage').style.display = 'block';
+                setTimeout(() => document.getElementById('warningMessage').style.display = 'none', 1500);
             }
         }
 
         function startSorterTimer() {
             document.getElementById('timerText').textContent = `Time Left: ${remainingTime}s`;
             document.getElementById('timerBar').style.width = '100%';
-            document.getElementById('timerBar').className = 'timer-bar';
 
             appState.gameTimer = setInterval(() => {
                 remainingTime--;
@@ -956,36 +1279,28 @@
         function endSorter() {
             clearInterval(appState.gameTimer);
             appState.sorterPoints = appState.sorterCorrect * 20;
-
-            const success = appState.sorterCorrect === 5;
-            document.getElementById('resultsTitle').textContent = success ? '🎉 Perfect Sorting!' : '⏰ Time\'s Up!';
+            document.getElementById('resultsTitle').textContent = appState.sorterCorrect === 5 ? '🎉 Perfect Sorting!' : '⏰ Time\'s Up!';
             document.getElementById('scoreDisplay').textContent = `${appState.sorterPoints}/100`;
-            document.getElementById('scoreMessage').textContent = success ? 'Amazing! You\'re a water-saving pro.' : 'Nice try!';
-
+            document.getElementById('scoreMessage').textContent = appState.sorterCorrect === 5 ? 'Amazing! You\'re a water-saving pro.' : 'Nice try!';
             document.getElementById('resultsStats').innerHTML = `
                 <div class="stat-row"><span class="stat-label">Correctly Sorted</span><span class="stat-value">${appState.sorterCorrect}/5</span></div>
                 <div class="stat-row"><span class="stat-label">Points Earned</span><span class="stat-value">${appState.sorterPoints}</span></div>
             `;
-
-            document.getElementById('retryBtn').classList.toggle('hidden', success);
+            document.getElementById('retryBtn').classList.toggle('hidden', appState.sorterCorrect === 5);
             showScreen('resultsScreen');
-
-            if (success) {
-                playSound(523, 0.2); setTimeout(() => playSound(659, 0.2), 150); setTimeout(() => playSound(784, 0.3), 300);
-            }
+            appState.totalPoints += appState.sorterPoints;
+            appState.sevenDayCompleted = Math.min(appState.sevenDayCompleted + 1, 7);
+            updateAll();
         }
 
         // Event Listeners
         document.getElementById('sevenDayChallengeCard').addEventListener('click', startSorter);
         document.getElementById('dailyChallengeCard').addEventListener('click', startQuiz);
-        document.getElementById('quizNextBtn').addEventListener('click', nextQuizQuestion);
-        document.getElementById('returnBtn').addEventListener('click', () => {
-            const points = appState.activeChallenge === 'daily' ? appState.quizScore : appState.sorterPoints;
-            completeChallenge(points);
-        });
+        document.getElementById('returnBtn').addEventListener('click', () => showScreen('rewardsScreen'));
         document.getElementById('retryBtn').addEventListener('click', startSorter);
 
-        updateRewardsScreen();
+        updateAll();
+        showScreen('rewardsScreen');
     </script>
 </body>
 </html>
